@@ -1,5 +1,12 @@
 # 🖥️ dsh-remote-workspace
 
+[![License: MIT](https://img.shields.io/github/license/FYL1025/dsh-remote-workspace)](https://opensource.org/licenses/MIT)
+[![Node](https://img.shields.io/badge/node-%3E%3D18-green)](https://nodejs.org)
+[![DSH Plugin](https://img.shields.io/badge/DSH-plugin-blue)](https://github.com/deepseek-ai/deepseek-harness)
+[![Type](https://img.shields.io/badge/type-module-blueviolet)](https://nodejs.org/api/esm.html)
+[![Code Size](https://img.shields.io/github/languages/code-size/FYL1025/dsh-remote-workspace)](https://github.com/FYL1025/dsh-remote-workspace)
+[![npm version](https://img.shields.io/badge/npm-pending-lightgrey)](https://www.npmjs.com)
+
 **DeepSeek Harness (DSH) 远程工作区插件**：通过 SSH 连接**一台或多台服务器**，直接在 DSH 的 Web 界面里浏览文件、编辑代码、执行命令——体验类似 VS Code Remote-SSH，无需离开对话。
 
 ## ✨ 功能
