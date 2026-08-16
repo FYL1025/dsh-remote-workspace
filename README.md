@@ -7,103 +7,136 @@
 [![Code Size](https://img.shields.io/github/languages/code-size/FYL1025/dsh-remote-workspace)](https://github.com/FYL1025/dsh-remote-workspace)
 [![npm version](https://img.shields.io/badge/npm-pending-lightgrey)](https://www.npmjs.com)
 
+**[English](#english) | [中文](#中文)**
+
+---
+
+<a id="english"></a>
+
+## English
+
+**Remote Workspace for DeepSeek Harness (DSH)** — connect to one or more servers over SSH and browse files, edit code, and run commands directly in the DSH web UI. A Remote-SSH experience without leaving the conversation.
+
+### ✨ Features
+
+- **Multi-server connection management** (Settings → Remote Workspace): SSH alias (`~/.ssh/config` Host) or host/port/user modes; switch connections anytime; config persists in browser localStorage
+- **🔌 Connect / ⏹ Disconnect**: verify and hold/release the active server's connection state with one click
+- **File tree browser**: lazy-loaded expand/collapse, hidden-files toggle, per-type icons, one-click copy path
+- **Code editor**: line numbers + 👁 syntax-highlight preview (keywords/strings/comments/numbers/decorators) + ✏️ edit and save back to the server
+- **Command runner**: run any command on the server (working directory follows the open file)
+- **Dock / Float dual modes**: docked beside the conversation (conversation reflows, draggable divider) / wide floating panel (up to 1400px)
+- **Conversation-direct**: ask the agent in chat to operate on server files directly
+
+### 📦 Install
+
+```bash
+# SSH (recommended, port 22)
+dsh plugin --profile web add git+ssh://git@github.com/FYL1025/dsh-remote-workspace.git
+
+# or HTTPS (port 443)
+dsh plugin --profile web add git+https://github.com/FYL1025/dsh-remote-workspace.git
+```
+
+**Restart DSH** after install, then open **Settings → Remote Workspace**.
+
+### ⚠️ Prerequisites: SSH passwordless login (important)
+
+The plugin uses your **local SSH client** to reach servers, so **key-based passwordless login** must be configured first:
+
+1. **Check for an existing key** — `ls ~/.ssh/` — or generate one: `ssh-keygen -t ed25519 -C "you@example.com"`
+2. **Add the public key to the server**:
+   ```bash
+   ssh-copy-id -p <port> <user>@<server>       # Linux/macOS
+   # or manually: append ~/.ssh/id_ed25519.pub to the server's ~/.ssh/authorized_keys
+   ```
+3. **(Recommended) Define an alias** in `~/.ssh/config` (Windows: `C:\Users\<you>\.ssh\config`):
+   ```
+   Host myserver
+     HostName <server-ip>
+     User <user>
+     Port <port>
+   ```
+4. **Verify** — `ssh myserver` should log in **without asking for a password**.
+
+### 🔒 Security note
+
+- The plugin runs ssh commands with a **danger-full-access** policy — equivalent to you running ssh yourself in a terminal; limited to commands issued by this plugin.
+- Connection settings (alias/host/port/user) are stored in browser localStorage; **no passwords or private keys** are ever stored.
+
+### ❓ FAQ
+
+| Issue | Fix |
+| --- | --- |
+| ❌ Connection failed | Check host/port/user; confirm passwordless login works (`ssh <alias>`); retry |
+| Permission denied (publickey) | Public key not on the server — run `ssh-copy-id` or append to `authorized_keys` |
+| Large file rejected | The plugin reads text files ≤ 2MB; ask the agent in chat for bigger files |
+
+### 📄 License
+
+MIT
+
+---
+
+<a id="中文"></a>
+
+## 中文
+
 **DeepSeek Harness (DSH) 远程工作区插件**：通过 SSH 连接**一台或多台服务器**，直接在 DSH 的 Web 界面里浏览文件、编辑代码、执行命令——体验类似 VS Code Remote-SSH，无需离开对话。
 
-## ✨ 功能
+### ✨ 功能
 
-- **多服务器连接管理**（设置 → 远程工作区）：支持多台服务器随时切换；两种连接方式——SSH 别名（`~/.ssh/config` 的 Host）或 主机/端口/用户名；配置保存在浏览器本地，刷新不丢失
-- **🔌 连接 / ⏹ 断开**：一键验证并保持/解除当前服务器的连接状态，连接列表实时显示「已连接」
+- **多服务器连接管理**（设置 → 远程工作区）：SSH 别名方式（`~/.ssh/config` 的 Host）或 主机/端口/用户名 方式，随时切换当前连接；配置保存在浏览器本地，刷新不丢失
+- **🔌 连接 / ⏹ 断开**：一键验证并保持/解除当前服务器的连接状态
 - **文件树浏览器**：目录懒加载展开/折叠、隐藏文件开关、按类型显示图标（🐍📝📓🧠…）、一键复制路径
 - **代码编辑器**：行号 + 👁 语法高亮预览（关键字/字符串/注释/数字/装饰器着色）+ ✏️ 编辑并保存回服务器
 - **命令执行框**：在服务器上运行任意命令（工作目录自动跟随当前打开文件所在目录）
 - **贴合 / 加宽 双模式**：贴合模式与对话并排（对话自动让位，分隔条可拖拽）；加宽模式为宽屏浮动面板（可拖到 1400px，代码一目了然）
 - **对话直连**：在对话里直接说「看看 ~/fyl/xxx」「帮我改服务器上的文件」，智能体也会直接通过 SSH 操作
 
-## 📦 安装
+### 📦 安装
 
 ```bash
-# 需要已安装 pnpm；profile 名通常是 web
+# SSH 方式（推荐，端口 22）
+dsh plugin --profile web add git+ssh://git@github.com/FYL1025/dsh-remote-workspace.git
+
+# 或 HTTPS 方式（端口 443）
 dsh plugin --profile web add git+https://github.com/FYL1025/dsh-remote-workspace.git
 ```
 
-安装后重启 DSH，打开 **设置 → 远程工作区** 即可使用。
+安装后**重启 DSH**，打开 **设置 → 远程工作区** 即可使用。
 
-## ⚠️ 前置准备：SSH 免密登录（重要）
+### ⚠️ 前置准备：SSH 免密登录（重要）
 
-插件通过你**本机的 SSH 客户端**连接服务器，因此必须先配置好**免密登录（密钥认证）**。请按以下步骤操作：
+插件通过你**本机的 SSH 客户端**连接服务器，因此必须先配置好**免密登录（密钥认证）**：
 
-### 1. 检查本机是否已有 SSH 密钥
+1. **检查/生成密钥**：`ls ~/.ssh/` 没有就用 `ssh-keygen -t ed25519 -C "你的邮箱"` 生成（一路回车即可）
+2. **把公钥添加到服务器**：
+   ```bash
+   ssh-copy-id -p 端口 用户名@服务器IP        # Linux/macOS 自带
+   # 或手动：把 ~/.ssh/id_ed25519.pub 内容追加到服务器的 ~/.ssh/authorized_keys
+   ```
+3. **（推荐）配置服务器别名**：编辑 `~/.ssh/config`（Windows 为 `C:\Users\你的用户名\.ssh\config`）：
+   ```
+   Host myserver
+     HostName 服务器IP
+     User 用户名
+     Port 端口
+   ```
+4. **验证**：`ssh myserver` 能**免密码**直接登录即可
 
-```bash
-ls ~/.ssh/
-```
-
-看到 `id_ed25519`（或 `id_rsa`）及对应的 `.pub` 文件即可；如果没有，先生成：
-
-```bash
-ssh-keygen -t ed25519 -C "你的邮箱"
-# 一路回车即可（不设密码短语）
-```
-
-### 2. 把公钥添加到服务器（免密关键步骤）
-
-```bash
-# 方式一：用 ssh-copy-id（Linux/macOS 自带）
-ssh-copy-id -p 端口 用户名@服务器IP
-
-# 方式二：手动复制（Windows 无 ssh-copy-id 时）
-cat ~/.ssh/id_ed25519.pub
-# 然后登录服务器，把输出追加到服务器上的 ~/.ssh/authorized_keys
-```
-
-### 3. （推荐）在 `~/.ssh/config` 里配置服务器别名
-
-编辑本机 `~/.ssh/config`（Windows 为 `C:\Users\你的用户名\.ssh\config`），添加：
-
-```
-Host myserver
-  HostName 服务器IP
-  User 用户名
-  Port 端口
-```
-
-> 好处：连接插件时只需填别名 `myserver`，以后命令行 `ssh myserver` 也免密直连。
-
-### 4. 验证免密登录成功
-
-```bash
-ssh myserver
-# 或 ssh -p 端口 用户名@服务器IP
-```
-
-**能直接登录、不要求输密码**，即可在插件里使用。
-
-### 安全说明
+### 🔒 安全说明
 
 - 插件执行的 ssh 命令以**全访问（danger-full-access）**策略运行，等价于你自己在终端里执行 ssh，仅限本插件发起的命令
 - 连接配置（别名/主机/端口/用户名）保存在浏览器 localStorage，**不含任何密码或私钥**
 
-## 🚀 使用
-
-1. **设置 → 远程工作区**：
-   - 「连接管理」添加服务器（选 **SSH 别名** 或 **主机/端口** 方式），点单选按钮设为当前连接
-   - 点 **「🔌 连接」** 验证连通性（成功后变 **「⏹ 断开」**）
-2. 点 **「📂 打开工作区面板」** → 文件浏览器出现在对话右侧（对话自动让位）
-3. 展开目录、点开文件：
-   - **👁 预览**：语法高亮
-   - **✏️ 编辑**：修改后点「保存」写回服务器
-4. 底部命令框可执行任意命令（如 `ls -la`、`python train.py`）
-5. 面板右上角 **「⇔ 加宽」** 切换宽屏模式，拖动边缘调整宽度
-
-## ❓ 常见问题
+### ❓ 常见问题
 
 | 问题 | 解决 |
 | --- | --- |
-| 点「连接」显示 ❌ 连接失败 | 检查服务器 IP/端口/用户名是否正确；确认本机已配置免密登录（见上）；试试命令行 `ssh 别名` 能否直接登录 |
-| 提示 Permission denied (publickey) | 公钥未添加到服务器：执行 `ssh-copy-id` 或手动追加 `authorized_keys` |
-| 面板操作报「连接失败」 | 多为网络不通或服务器关机；稍后重试 |
+| ❌ 连接失败 | 检查服务器 IP/端口/用户名；确认本机已配置免密登录（见上）；重试 |
+| Permission denied (publickey) | 公钥未添加到服务器：执行 `ssh-copy-id` 或手动追加 `authorized_keys` |
 | 读取大文件被拒 | 插件只读 ≤2MB 的文本文件，大文件请在对话里让智能体处理 |
 
-## 📄 License
+### 📄 License
 
 MIT
