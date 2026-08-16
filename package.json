@@ -5,6 +5,11 @@
   "license": "MIT",
   "type": "module",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FYL1025/dsh-remote-workspace.git"
+  },
+  "homepage": "https://github.com/FYL1025/dsh-remote-workspace#readme",
   "exports": {
     ".": {
       "default": "./lib/index.js"
