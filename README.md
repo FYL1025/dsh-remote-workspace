@@ -23,6 +23,20 @@
 - **Dock / Float dual modes**: docked beside the conversation (conversation reflows, draggable divider) / wide floating panel (up to 1400px)
 - **Conversation-direct**: ask the agent in chat to operate on server files directly
 
+## 🥇 Why this plugin?
+
+Compared with other DSH SSH / remote-file-browser plugins:
+
+- **Multi-server, not single-server** — add and switch any number of SSH connections (alias or host/port/user); most similar plugins hard-code one server
+- **Zero-build, pure source** — no tsdown/typert build step; the published source *is* the running code, so it is easy to audit, fork, or extend
+- **Dock / Float dual modes** — dock beside the conversation (auto-reflow + draggable divider) or one-click widen to a 1400px floating panel; other panels usually just overlay the page
+- **Syntax highlighting + line numbers** — IDE-like code reading (keywords / strings / comments / numbers / decorators), not a plain textarea
+- **Persistent config** — connection settings survive page refresh (localStorage)
+- **Reuses your local SSH** — works with existing `~/.ssh/config` aliases and keys; no passwords are ever stored
+- **Built-in command runner** — run commands in the panel; the working directory follows the open file
+- **Conversation-direct** — pairs with DSH agents: you can also just say "edit this file on the server" in chat
+- **Bilingual docs + MIT open source**
+
 ## 📦 Install
 
 ```bash
