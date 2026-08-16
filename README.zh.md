@@ -9,9 +9,21 @@
 
 [English](README.md) | **简体中文**
 
+> **DeepSeek Harness (DSH) 远程工作区插件** —— 通过 SSH 连接**一台或多台服务器**，直接在 DSH 的 Web 界面里浏览文件、编辑代码、执行命令。体验类似 VS Code Remote-SSH，无需离开对话。
+
 ---
 
-**DeepSeek Harness (DSH) 远程工作区插件**：通过 SSH 连接**一台或多台服务器**，直接在 DSH 的 Web 界面里浏览文件、编辑代码、执行命令——体验类似 VS Code Remote-SSH，无需离开对话。
+## 📑 目录
+
+- [✨ 功能](#-功能)
+- [🥇 我们的优势](#-我们的优势)
+- [📦 安装](#-安装)
+- [🚀 快速上手](#-快速上手)
+- [⚠️ 前置准备：SSH 免密登录](#-前置准备ssh-免密登录)
+- [🔒 安全说明](#-安全说明)
+- [❓ 常见问题](#-常见问题)
+- [🤝 反馈](#-反馈)
+- [📄 License](#-license)
 
 ## ✨ 功能
 
@@ -39,6 +51,8 @@
 
 ## 📦 安装
 
+**环境要求**：Node.js ≥ 18 · pnpm · DSH profile（通常为 `web`）
+
 ```bash
 # SSH 方式（推荐，端口 22）
 dsh plugin --profile web add git+ssh://git@github.com/FYL1025/dsh-remote-workspace.git
@@ -48,6 +62,28 @@ dsh plugin --profile web add git+https://github.com/FYL1025/dsh-remote-workspace
 ```
 
 安装后**重启 DSH**，打开 **设置 → 远程工作区** 即可使用。
+
+```bash
+# 验证插件已注册
+dsh plugin --profile web list
+
+# 有新版本时更新
+dsh plugin --profile web update dsh-remote-workspace
+
+# 卸载
+dsh plugin --profile web remove dsh-remote-workspace
+```
+
+## 🚀 快速上手
+
+1. **设置 → 远程工作区** → 添加你的服务器（SSH 别名 或 主机/端口/用户名），点单选按钮设为当前连接
+2. 点 **🔌 连接** 验证连通性（成功后变为 ⏹ 断开）
+3. 点 **📂 打开工作区面板** → 文件浏览器出现在对话右侧
+4. 展开目录、点开文件：
+   - **👁 预览**：语法高亮
+   - **✏️ 编辑**：修改后点「保存」写回服务器
+5. 底部命令框可执行任意命令（如 `ls -la`、`python train.py`）
+6. 点 **⇔ 加宽** 切换宽屏模式，拖动边缘调整宽度
 
 ## ⚠️ 前置准备：SSH 免密登录（重要）
 
@@ -80,6 +116,11 @@ dsh plugin --profile web add git+https://github.com/FYL1025/dsh-remote-workspace
 | ❌ 连接失败 | 检查服务器 IP/端口/用户名；确认本机已配置免密登录（见上）；重试 |
 | Permission denied (publickey) | 公钥未添加到服务器：执行 `ssh-copy-id` 或手动追加 `authorized_keys` |
 | 读取大文件被拒 | 插件只读 ≤2MB 的文本文件，大文件请在对话里让智能体处理 |
+| 重启后面板不见了 | 强制刷新页面（Ctrl+Shift+R）；确认 `dsh plugin --profile web list` 里有它 |
+
+## 🤝 反馈
+
+遇到问题或有想法？欢迎在 [Issues](https://github.com/FYL1025/dsh-remote-workspace/issues) 提出，也欢迎贡献代码。
 
 ## 📄 License
 
